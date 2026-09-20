@@ -14,6 +14,7 @@ api_key = os.getenv("GEMINI_API_KEY")
 llm = ChatGoogleGenerativeAI(
     model="gemini-3.6-flash",
     google_api_key=api_key,
+    max_retries=0,
 )
 
 llm_with_tools = llm.bind_tools(MCP_TOOLS)

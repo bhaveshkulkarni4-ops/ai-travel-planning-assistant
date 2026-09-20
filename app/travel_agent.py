@@ -16,6 +16,7 @@ llm = ChatGoogleGenerativeAI(
     model="gemini-3.6-flash",
     google_api_key=api_key,
     temperature=0.2,
+    max_retries=0,
 )
 
 
@@ -95,20 +96,35 @@ IMPORTANT RULES:
 8. Include a short explanation of how weather affected the plan.
 """
 
-    response = await llm.ainvoke(prompt)
+    try:
+        response = await llm.ainvoke(prompt)
 
-    answer = response.content
+        answer = response.content
 
-    if isinstance(answer, list):
-        text_parts = []
+        if isinstance(answer, list):
+            text_parts = []
 
-        for item in answer:
-            if isinstance(item, dict) and item.get("text"):
-                text_parts.append(item["text"])
+            for item in answer:
+                if isinstance(item, dict) and item.get("text"):
+                    text_parts.append(item["text"])
 
-        answer = "\n".join(text_parts)
+            answer = "\n".join(text_parts)
 
-    return answer
+        return answer
+
+    except Exception as exc:
+        error_text = str(exc)
+
+        if "RESOURCE_EXHAUSTED" in error_text or "429" in error_text or "quota" in error_text.lower():
+            return (
+                "The Gemini AI service is temporarily unavailable because the API quota "
+                "has been reached. Please try again after the quota resets."
+            )
+
+        return (
+            "The travel-planning AI service is temporarily unavailable. "
+            "Please try again later."
+        )
 
 
 if __name__ == "__main__":

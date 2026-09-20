@@ -254,6 +254,7 @@ def generate_answer(
     llm = ChatGoogleGenerativeAI(
         model="gemini-3.6-flash",
         google_api_key=None,
+        max_retries=0,
     )
 
     # ---------------------------------------------
