@@ -1,5 +1,13 @@
 # AI Travel Planning Assistant
 
+## GitHub Repository
+
+Source code and complete project history:
+
+https://github.com/bhaveshkulkarni4-ops/ai-travel-planning-assistant
+
+# AI Travel Planning Assistant
+
 A context-aware Singapore Travel Planning Assistant built using Retrieval-Augmented Generation (RAG), custom Model Context Protocol (MCP) tools, Gemini LLM, FAISS vector search, and Streamlit.
 
 The application combines:
